@@ -3,10 +3,16 @@ import Login from "./routes/Login"
 import Home from "./routes/Home"
 import Navbar from "./components/Navbar"
 import RequiereAuth from "./components/RequiereAuth"
+import Register from "./routes/Register"
+import { useContext } from "react"
+import { UserContext } from "./context/UserProvider"
 //context appi prove una forma de pasar datos atraves del arbol de componentes sin tener que pasar props
 //manualmente en cada nivel y esta configurado con router
 const App = () => {
-
+const {user} = useContext(UserContext)
+ if(user === false){
+  return <p>Loading....</p>
+ }
 
   return (
 <>
@@ -19,8 +25,9 @@ const App = () => {
           <Home/>
         </RequiereAuth>
        }/> 
-       <Route path="/login" element={<Login/>}/>
-       
+       <Route path="/login" element={<Login />}/>
+        <Route path="/register" element={<Register />}/>
+        
     </Routes>
 
 </>   
