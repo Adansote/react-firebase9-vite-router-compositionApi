@@ -2,46 +2,34 @@ import { useContext} from "react";
 import { UserContext } from "../context/UserProvider";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { erroresFirebase } from "../utils/erroresFirebase";
+import FormError from "../components/FormError";
+import { formValidate } from "../utils/formValidate";
+import FormInput from "../components/FormInput";
 
 const Register = () => {
-   
-
-    const{register, handleSubmit, getValues, setError, formState: {errors}}= useForm({
-  defaultValues:{
-    email: "adansotmx@gmail.com",
-    password: "123123"
-  }
-
-    })
+   const {required, patternEmail, minLength, validateTrim, validateEquals}= formValidate()
     const {registerUser} = useContext(UserContext)
     const navegate = useNavigate()
 
+    const{register,
+         handleSubmit, 
+         getValues, 
+         setError,
+         formState: 
+         {errors}}= useForm();
+
   const onSubmit = async({email, password}) => {
- console.log(email, password)
+      
     try {
         await registerUser(email, password)
-        console.log("usuario creado")
+       
         navegate("/")
     } catch (error) {
         console.log(error.code)
-       
-          
-            switch(error.code){
-                case "auth/email-already-in-use" :
-                    
-                    setError("email",{ 
-                        message: "Usuario ya registrado"
-                    })
-                    break;
-                case "auth/invalid-email":
-                    setError("email",{ 
-                        message: "Formato email no valido"
-                    })
-                    break;
-
-                    default:
-                        console.log("ocurrio un error en el servidor")
-            }
+        setError("firebase",{
+            message: erroresFirebase(error.code),
+            })
     }
   } 
   
@@ -49,55 +37,44 @@ const Register = () => {
     return(
 <>
 <h1>Register</h1>
-<form onSubmit={handleSubmit(onSubmit)}>
-
-    <input 
-    type="email" 
-    placeholder="Ingrese Email"
-     {...register("email" ,{required:{ value: true, message: "campo obligatorio"},
-     pattern:{
-       value: /[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})/ ,
-       message:"Forrmato de email incorrecto"
-    },
     
-     })}
+    <FormError error={errors.firebase}/>
+<form onSubmit={handleSubmit(onSubmit)}>
+  <FormInput  
+   type="email" 
+   placeholder="Ingrese Email"
+    {...register("email" ,{
+       required,
+       pattern: patternEmail,
+    })}
+    >
+     <FormError error={errors.email}/>
+  </FormInput>
+    
 
-    />
-    {
-        errors.email && <p>{errors.email.message}</p>
-    }
+<FormInput
+ type="password" 
+ placeholder="Ingrese Password"
+  {...register("password",{ 
+     minLength,
+ validate: validateTrim,
+})}
+>
+     <FormError error={errors.password}/>
+</FormInput>
 
-<input 
-    type="password" 
-    placeholder="Ingrese Password"
-     {...register("password",{ minLength:{ value : 6, message: "Minimo 6 caracteres"},
-    validate: {
-        trim: (v) => {
-            if (!v.trim()) {return "No seas payaso escribe algo"
-        }
-          return  true
-        }
-       }
-       })}
-    />
-      {
-     errors.password && <p>{errors.password.message}</p>
-    }
-     <input 
-    type="password" 
-    placeholder="Ingrese Password"
-     {...register("repassword", {
-        setValueAs: (v) =>v.trim(),
-        validate: {
-            equals: (v)  =>
-             v === getValues("password") || "No coincide la contraseña", 
-           
-        }
-     })}
-    />
-   {
-    errors.repassword && <p>{errors.repassword.message}</p>
-   }
+
+<FormInput
+  type="password" 
+  placeholder="Ingrese Password"
+   {...register("repassword", {
+      
+      validate: validateEquals(getValues),
+   })}
+   >
+      <FormError error={errors.repassword}/>
+</FormInput>
+ 
     <button type="submit">Register</button>
 </form>
 </>  

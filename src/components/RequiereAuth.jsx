@@ -14,6 +14,5 @@ const RequiereAuth = ({children}) => {
  children
 
     )
-  
 }
 export default RequiereAuth;
