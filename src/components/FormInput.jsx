@@ -15,8 +15,6 @@ const FormInput = forwardRef(
     />
        {children} 
         </>
-   
-
     ) 
 })
 export default FormInput;
