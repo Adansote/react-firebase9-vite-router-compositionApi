@@ -1,4 +1,4 @@
- export const formValidate = (getValues) => {
+ export const formValidate = () => {
 return {
     required:{
          value: true, 
@@ -19,12 +19,11 @@ patternEmail:{
   return  true;
    },
  },
-   validateEquals(getValues) {
+   validateEquals(Value) {
    return{
      equals: (v)  =>
-     v === getValues("password") || "No coincide la contraseña", 
-   }
-   
+     v === Value || "No coincide la contraseña", 
+   }   
 }
   }
  }
