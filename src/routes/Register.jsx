@@ -9,6 +9,7 @@ import FormInput from "../components/FormInput";
 import Title from "../components/Title";
 import Button from "../components/Button";
 
+
 const Register = () => {
    const {required, patternEmail, minLength, validateTrim, validateEquals}= formValidate()
     const {registerUser} = useContext(UserContext)
@@ -38,7 +39,8 @@ const Register = () => {
     return(
 <>
 <Title text="Register"/>
-<form onSubmit={handleSubmit(onSubmit)}>
+<form className="w-full max-w-sm mx-auto bg-blue-500 p-8 rounded-md shadow-md" onSubmit={handleSubmit(onSubmit)}>
+
   <FormInput  
    type="email" 
    placeholder="Ingrese Email"

@@ -7,6 +7,7 @@ import Register from "./routes/Register"
 import { useContext } from "react"
 import { UserContext } from "./context/UserProvider"
 import LayoutContainerForm from "./components/LayoutContainerForm"
+
 //context appi prove una forma de pasar datos atraves del arbol de componentes sin tener que pasar props
 //manualmente en cada nivel y esta configurado con router
 const App = () => {
@@ -16,18 +17,21 @@ const {user} = useContext(UserContext)
  }
 
   return (
+    
 <>
+
         <Navbar/>
         <div>App</div>
        
        <Routes>
+      
        <Route path="/" element={
         <RequiereAuth>
           <Home/>
         </RequiereAuth>
        }/> 
 
-       <Route path="/" element={<LayoutContainerForm/>}>
+       <Route   path="/" element={<LayoutContainerForm/>}>
           <Route path="/login" element={<Login />}/>
           <Route path="/register" element={<Register />}/>  
        </Route>

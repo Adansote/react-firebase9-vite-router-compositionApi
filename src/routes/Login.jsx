@@ -36,7 +36,7 @@ const Login =() => {
     return(
     <>
     <Title text= "Login"/>
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form className="w-full max-w-sm mx-auto bg-blue-500 p-8 rounded-md shadow-md" onSubmit={handleSubmit(onSubmit)}>
         
   <FormInput  
         label="Ingresa tu correo"
