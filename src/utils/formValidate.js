@@ -8,6 +8,10 @@ patternEmail:{
     value: /[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})/ ,
     message:"Fomato de email incorrecto"
  },
+ patternURL:{
+  value: /^https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*$/ ,
+  message:"Fomato de url incorrecto",
+},
  minLength: {
     value: 6,
     message: "Minimo 6 caracteres",

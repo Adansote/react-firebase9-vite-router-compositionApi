@@ -8,9 +8,10 @@ export const UserContext =  createContext()
 const UserProvider = ({ children }) => {
  const [user, setUser] = useState(false)
  
+ 
   useEffect(() => {
  const unsuscribe = onAuthStateChanged(auth, (user) => {
-   console.log(user)
+  // console.log(user)
    if(user){
     const {email, photoURL, displayName, uid}= user
     setUser({email, photoURL, displayName, uid})

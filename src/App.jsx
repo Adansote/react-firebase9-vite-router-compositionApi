@@ -1,13 +1,16 @@
 import { Routes,Route } from "react-router-dom"
+import { useContext } from "react"
+import { UserContext } from "./context/UserProvider"
+
+import LayoutContainerForm from "./components/Layouts/LayoutContainerForm"
+import Perfil from "./routes/Perfil"
+import LayoutRequiereAuth from "./components/Layouts/LayoutRequiereAuth"
+import NotFound from "./routes/NotFound"
+import LayoutRedirect from "./components/Layouts/LayoutRedirect"
+import Register from "./routes/Register"
 import Login from "./routes/Login"
 import Home from "./routes/Home"
 import Navbar from "./components/Navbar"
-import RequiereAuth from "./components/RequiereAuth"
-import Register from "./routes/Register"
-import { useContext } from "react"
-import { UserContext } from "./context/UserProvider"
-import LayoutContainerForm from "./components/LayoutContainerForm"
-
 //context appi prove una forma de pasar datos atraves del arbol de componentes sin tener que pasar props
 //manualmente en cada nivel y esta configurado con router
 const App = () => {
@@ -21,21 +24,22 @@ const {user} = useContext(UserContext)
 <>
 
         <Navbar/>
-        <div>App</div>
+    <Routes> 
        
-       <Routes>
-      
-       <Route path="/" element={
-        <RequiereAuth>
-          <Home/>
-        </RequiereAuth>
-       }/> 
+       <Route path="/" element={<LayoutRequiereAuth/>}>
+            <Route index element={<Home/>}/>
+            <Route path="perfil" element={<Perfil/>}/>
+       </Route>
 
        <Route   path="/" element={<LayoutContainerForm/>}>
           <Route path="/login" element={<Login />}/>
           <Route path="/register" element={<Register />}/>  
-       </Route>
-        
+       </Route>  
+       
+       <Route path="/:nanoid" element={<LayoutRedirect/>}>
+       <Route index element={<NotFound/>}/>   
+      </Route> 
+      
     </Routes>
 </>   
   )

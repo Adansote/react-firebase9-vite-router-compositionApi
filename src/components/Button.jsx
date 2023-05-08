@@ -1,9 +1,16 @@
-const Button = ({ text, type }) => (
+import ButtonLoading from "./ButtonLoading"
+
+const Button = ({ text, type, color ="${color}", loading, onClick}) => {
+    if(loading) return <ButtonLoading/> 
+
+   return(
     <button
-        type={type}
-        className="w-full bg-pink-400 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-pink-700 transition duration-300"
+    onClick={onClick}
+  type={type}
+  className={`m-2 focus:outline-none text-white bg-${color}-700 hover:bg-${color}-800 focus:ring-4 focus:ring-${color}-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-${color}-600 dark:hover:bg-${color}-700 dark:focus:ring-${color}-900`}
     >
         {text}
     </button>
-);
+   )
+};
 export default Button;
